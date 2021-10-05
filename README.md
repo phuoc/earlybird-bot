@@ -1,4 +1,4 @@
-# WORM BOT FOR DISCORD [WIP]
+# Worm bot for Discord [WIP]
 
 Early 🐦🐦 gets the 🐛  
 This is a Discord bot that rewards early birds.
