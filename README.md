@@ -1,6 +1,6 @@
 # WORM BOT FOR DISCORD
 
-Early 🐦🐦 gets the 🐛
+Early 🐦🐦 gets the 🐛  
 This is a Discord bot that rewards earlybirds.
 
 ## Rules
