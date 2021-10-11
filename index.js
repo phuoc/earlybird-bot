@@ -1,12 +1,10 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
-// const { token } = require('./config.json');
 if(process.env.NODE_ENV != "production") {
 	require('dotenv').config();
 }
 
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -19,6 +17,7 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Collection();
+
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
@@ -29,7 +28,7 @@ for (const file of commandFiles) {
 }
 
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Worm bot is online!');
 });
 
 client.on('interactionCreate', async interaction => {
@@ -48,5 +47,21 @@ client.on('interactionCreate', async interaction => {
 
 });
 
-const token = process.env.TOKEN;
-client.login(token);
+client.on('messageCreate', async message => {
+  if (message.author.bot || !message.guild) return;
+  if (!client.application?.owner) await client.application?.fetch();
+
+  if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
+    await message.guild.commands
+      .set(client.commands)
+      .then(() => {
+        message.reply('Deployed!');
+      })
+      .catch(err => {
+        message.reply('Could not deploy commands! Make sure the bot has the application.commands permission!');
+        console.error(err);
+      });
+  }
+});
+
+client.login(process.env.TOKEN);

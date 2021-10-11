@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { DiscordAPIError } = require('@discordjs/rest');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -6,5 +7,6 @@ module.exports = {
 		.setDescription('Claims the worm'),
 	async execute(interaction) {
 		await interaction.reply('Ha! You got me!');
+
 	},
 };
