@@ -1,5 +1,6 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
+const mongoose = require('mongoose');
 if(process.env.NODE_ENV != "production") {
 	require('dotenv').config();
 }
@@ -62,6 +63,15 @@ client.on('messageCreate', async message => {
         console.error(err);
       });
   }
+});
+
+mongoose.connect(process.env.MONGODB_SRV, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+}).then(() => {
+	console.log('Database connected!');
+}).catch((err) => {
+	console.log(err);
 });
 
 client.login(process.env.TOKEN);
