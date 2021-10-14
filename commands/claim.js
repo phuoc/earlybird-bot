@@ -15,16 +15,19 @@ const quotes = [
 //Faa boten til aa si hvilken nr paa worm: FOKO got the 1st worm!
 //Bao got the 4th worm!
 
+//antall levels > evolve til diff bird breeds -> bruke knapper
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("claim")
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
+    const dailyCounter = 0;
     // Check time
     const time = new Date();
-    const openingHr = 6; // 5
-    const closingHr = 9; // 8
+    const openingHr = 6;
+    const closingHr = 8;
 
     if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
       console.log(`Worm shop is open. ${openingHr} - ${closingHr}`);
@@ -50,6 +53,8 @@ module.exports = {
           serverID: interaction.guildId,
           worms: 0,
         });
+        // profileData = profile;
+        // profileData.worms+=1;
         profile.save();
         console.log(`${interaction.user.tag} New profile created`);
       }
@@ -58,11 +63,23 @@ module.exports = {
     }
     // End create profiles 
 
+    const reward = 1;
+    const response = await profileModel.findOneAndUpdate(
+      {
+        userID: interaction.user.id,
+      },
+      {
+        $inc: {
+          worms: reward,
+        },
+      }
+    );
+
+    let userMention = interaction.user.id;
+
     await interaction.reply({
-      content: interaction.user.username + " got the worm!",
+      content: `Early birb <@${interaction.user.id}> got a worm!`,
     });
     await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
-
-    
   },
 };
