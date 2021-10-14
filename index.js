@@ -1,6 +1,8 @@
 const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const mongoose = require('mongoose');
+const profileModel = require("./models/profileSchema");
+
 if(process.env.NODE_ENV != "production") {
 	require('dotenv').config();
 }
