@@ -15,14 +15,13 @@ const quotes = [
 //Faa boten til aa si hvilken nr paa worm: FOKO got the 1st worm!
 //Bao got the 4th worm!
 
-
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("claim")
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
+    // Check time
     const time = new Date();
     const openingHr = 6; // 5
     const closingHr = 9; // 8
@@ -35,6 +34,9 @@ module.exports = {
       console.log(time.getHours() + ":" + time.getMinutes());
     }
 
+    // End check time
+
+    // Create profiles 
     let profileData;
     try {
       profileData = await profileModel.findOne({ userID: interaction.user.id });
@@ -54,6 +56,7 @@ module.exports = {
     } catch (e) {
       console.log(e);
     }
+    // End create profiles 
 
     await interaction.reply({
       content: interaction.user.username + " got the worm!",
