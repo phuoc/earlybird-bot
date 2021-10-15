@@ -30,11 +30,11 @@ module.exports = {
     }
 
     if(profileData.worms === 0) {
-      interaction.reply({content:`lul u got no worm - yet`, ephemeral: true}, );
+      interaction.reply({content:`lul u got no worm - yet`, ephemeral: false}, );
     } else if(profileData.worms === 1) {
-      interaction.reply({content:`You have only ${profileData.worms} worm`, ephemeral: true}, );
+      interaction.reply({content:`You have only ${profileData.worms} worm`, ephemeral: false}, );
     } else {
-      interaction.reply({content:`You have ${profileData.worms} worms`, ephemeral: true}, );
+      interaction.reply({content:`You have ${profileData.worms} worms`, ephemeral: false}, );
     }
   },
 };

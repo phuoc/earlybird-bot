@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { DiscordAPIError } = require("@discordjs/rest");
 const { MessageEmbed } = require("discord.js");
 const profileModel = require("../models/profileSchema");
+const authProfile = require("../utils.js");
 
 const quotes = [
   '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
@@ -10,7 +11,7 @@ const quotes = [
 	'Difficult road often lead to beautiful destinations. Good Morning!'
 ];
 
-//const dailyCount: teller antall worms som har blitt claimet paa morgenen. Tilbakestill etter 09:00
+//todo const dailyCount: teller antall worms som har blitt claimet paa morgenen. Tilbakestill etter 09:00
 //Flere kan claime en worm
 //Faa boten til aa si hvilken nr paa worm: FOKO got the 1st worm!
 //Bao got the 4th worm!
@@ -23,63 +24,39 @@ module.exports = {
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
-    const dailyCounter = 0;
     // Check time
     const time = new Date();
-    const openingHr = 6;
-    const closingHr = 8;
+    const openingHr = 6; 
+    const closingHr = 7;
+    let isOpen = false;
 
     if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
       console.log(`Worm shop is open. ${openingHr} - ${closingHr}`);
-      console.log(time.getHours() + ":" + time.getMinutes());
+      isOpen = true;
     } else {
       console.log(`Worm shop is closed. ${openingHr} - ${closingHr}`);
-      console.log(time.getHours() + ":" + time.getMinutes());
+      isOpen = false;
     }
-
+    console.log(time.getHours() + ":" + time.getMinutes());
     // End check time
 
-    // Create profiles 
-    let profileData;
-    try {
-      profileData = await profileModel.findOne({ userID: interaction.user.id });
-      if(profileData) {
-        console.log(`${interaction.user.tag} Profile already exist`);
-      }
+    // Check or create profiles 
+    await authProfile(interaction, profileModel);
 
-      if (!profileData) {
-        let profile = await profileModel.create({
-          userID: interaction.user.id,
-          serverID: interaction.guildId,
-          worms: 0,
-        });
-        // profileData = profile;
-        // profileData.worms+=1;
-        profile.save();
-        console.log(`${interaction.user.tag} New profile created`);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    // End create profiles 
-
+    // Award user claim +1
     const reward = 1;
-    const response = await profileModel.findOneAndUpdate(
-      {
-        userID: interaction.user.id,
-      },
-      {
-        $inc: {
-          worms: reward,
-        },
-      }
-    );
 
-    let userMention = interaction.user.id;
-
-    await interaction.reply({
-      content: `Early birb <@${interaction.user.id}> got a worm!`,
-    });
-    await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
+    if(!isOpen) {
+      const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: reward}});
+      await interaction.reply({
+        content: `Early birb <@${interaction.user.id}> got a worm!`,
+      });
+        //todo uncomment when in prod
+        // await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: false});
+    } else {
+      await interaction.reply({
+        content: `Shop is closed :(`,
+      });
+    }
   },
 };
