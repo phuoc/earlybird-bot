@@ -7,7 +7,7 @@ if(process.env.NODE_ENV != "production") {
 	require('dotenv').config();
 }
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILDS] });
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
@@ -56,9 +56,9 @@ client.on('messageCreate', async message => {
   if (!client.application?.owner) await client.application?.fetch();
 
 
-  if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
+  if (message.content === '!deploy') {
     await message.guild.commands
-      .set(client.commands)
+      .set(client.commands.map((command) => command.data.toJSON()))
       .then(() => {
         message.reply('Deployed!');
       })
