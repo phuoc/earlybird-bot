@@ -51,3 +51,46 @@ module.exports = async (Discord, client, message) => {
     console.log(e);
   }
 };
+
+
+//! guildMemberAdd.js
+const profileModel = require("./models/profileSchema");
+
+module.exports = async (client, discord, member) => {
+  let profile = await profileModel.create({
+    userID: member.id,
+    serverID: member.guild.id,
+    worms: 0,
+  });
+  profile.save();
+  console.log("Profile created!");
+};
+
+
+//! https://stackoverflow.com/questions/69072389/getting-guildmember-object-with-user-id-discord-js-v13
+
+const moment = require('moment');
+const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js')
+module.exports = {
+description: 'whois',
+run: async (client, message, args) => {
+    const user = message.mentions.users.first()
+
+        const embed = new MessageEmbed()
+            .setTitle(`**PASSION ISLAND MODERATIONS**`)
+            .setColor('#ffc0cb')
+            .setThumbnail(user.displayAvatarURL({ dynamic: true }))
+            .addField('Username', user.username)
+            .addField('User Id', user.id)
+            .addField('Account Type', `${user.bot ? 'Bot' : 'Human'}`)
+            .addField(`Roles`, `${message.member.roles.cache.size}`)
+            .addField(`Joined At`, `${moment.utc(message.member.joinedAt).format('ddd, MMM Do, YYYY, h:mm a')}`)
+            .addField(`created At`, `${moment.utc(message.member.createdAt).format('ddd, MMM Do, YYYY, h:mm a')}`)
+            .setTimestamp()
+            .setFooter(`Requested by ${message.author.username}`)
+                 message.channel.send({ embeds: [embed] })
+
+
+},
+}

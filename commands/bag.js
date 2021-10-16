@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const profileModel = require("../models/profileSchema");
 
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bag")
@@ -11,23 +12,24 @@ module.exports = {
     try {
       profileData = await profileModel.findOne({ userID: interaction.user.id });
       if(profileData) {
-        console.log(`${interaction.user.tag} Profile already exist`);
+        console.log(`${interaction.user.tag} Profile already exist - bag.js`);
       }
 
       if (!profileData) {
         let profile = await profileModel.create({
+          username: interaction.user.username,
           userID: interaction.user.id,
           serverID: interaction.guildId,
           worms: 0,
         });
-        // profileData = profile;
-        // profileData.worms+=1;
         profile.save();
-        console.log(`${interaction.user.tag} New profile created`);
+        console.log(`${interaction.user.tag} New profile created - bag.js`);
       }
     } catch (e) {
       console.log(e);
     }
+
+    console.log(profileData + '- bag.js');
 
     if(profileData.worms === 0) {
       interaction.reply({content:`lul u got no worm - yet`, ephemeral: false}, );

@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 const { DiscordAPIError } = require("@discordjs/rest");
 const { MessageEmbed } = require("discord.js");
 const profileModel = require("../models/profileSchema");
-const authProfile = require("../utils.js");
+const { authProfile } = require("../utils.js");
 
 const quotes = [
   '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
@@ -37,16 +37,17 @@ module.exports = {
       console.log(`Worm shop is closed. ${openingHr} - ${closingHr}`);
       isOpen = false;
     }
-    console.log(time.getHours() + ":" + time.getMinutes());
+    // console.log(time.getHours() + ":" + time.getMinutes());
     // End check time
 
     // Check or create profiles 
     await authProfile(interaction, profileModel);
 
-    // Award user claim +1
+    //todo console.log(interaction.userID(profileModel.))
+
     const reward = 1;
 
-    if(!isOpen) {
+    if(!isOpen) { 
       const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: reward}});
       await interaction.reply({
         content: `Early birb <@${interaction.user.id}> got a worm!`,
