@@ -51,9 +51,10 @@ client.on('interactionCreate', async interaction => {
 });
 
 client.on('messageCreate', async message => {
+	console.log("msgCreate");
   if (message.author.bot || !message.guild) return;
   if (!client.application?.owner) await client.application?.fetch();
-	console.log("msgCreate");
+
 
   if (message.content === '!deploy' && message.author.id === client.application?.owner?.id) {
     await message.guild.commands
