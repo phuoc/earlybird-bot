@@ -56,7 +56,7 @@ module.exports = {
         // await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: false});
     } else {
       await interaction.reply({
-        content: `Shop is closed :(`,
+        content: `Worms are spawning between 06:00 and 08:00`,
       });
     }
   },

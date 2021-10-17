@@ -31,6 +31,6 @@ module.exports = {
       );
 
     interaction.channel.send({ embeds: [embed] });
-    interaction.reply("nICE");
+    // interaction.reply("nICE");
   },
 };
