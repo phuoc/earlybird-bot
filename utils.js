@@ -1,5 +1,3 @@
-
-
 async function authProfile (interaction, profileModel) {
   let profileData;
   try {
