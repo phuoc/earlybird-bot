@@ -17,6 +17,7 @@ const quotes = [
 
 //antall levels > evolve til diff bird breeds -> bruke knapper
 
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("worm")
