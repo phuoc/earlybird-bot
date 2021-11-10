@@ -32,11 +32,11 @@ module.exports = {
     console.log(profileData + '- bag.js');
 
     if(profileData.worms === 0) {
-      interaction.reply({content:`lul u got no worm - yet`, ephemeral: false}, );
+      interaction.reply({content:`lul u got no worm - yet`, ephemeral: true}, );
     } else if(profileData.worms === 1) {
-      interaction.reply({content:`You have only ${profileData.worms} worm`, ephemeral: false}, );
+      interaction.reply({content:`You got only ${profileData.worms} worm`, ephemeral: true}, );
     } else {
-      interaction.reply({content:`You have ${profileData.worms} worms`, ephemeral: false}, );
+      interaction.reply({content:`You got ${profileData.worms} worms`, ephemeral: true}, );
     }
   },
 };
