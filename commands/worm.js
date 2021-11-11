@@ -25,11 +25,11 @@ module.exports = {
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
-    let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
-      interaction.channel.send('hi schedule cron jop');
-    });
+    // let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
+    //   interaction.channel.send('hi schedule cron jop');
+    // });
    
-   schedMsg.start();
+    // schedCacheReset.start();
 
     // Check time
     const time = new Date();
