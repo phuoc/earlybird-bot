@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const profileModel = require("../models/profileSchema");
 const { authProfile } = require("../utils.js");
+const cron = require('cron');
 
 const quotes = [
   '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
@@ -24,6 +25,12 @@ module.exports = {
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
+    let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
+      interaction.channel.send('hi schedule cron jop');
+    });
+   
+   schedMsg.start();
+
     // Check time
     const time = new Date();
     const openingHr = 5; 
@@ -40,7 +47,6 @@ module.exports = {
       console.log(`Worm shop is closed. ${openingHr} - ${closingHr}`);
       isOpen = false;
     } 
-    // console.log(time.getHours() + ":" + time.getMinutes());
     // End check time
 
     // Check or create profiles 
