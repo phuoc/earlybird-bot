@@ -21,8 +21,16 @@ async function authProfile (interaction, profileModel) {
 
 async function getProfiles (profileModel) {
   let profiles = await profileModel.find({}, {_id: 0, userID: 1, worms: 1 } ).sort({worms: -1});
-
   return profiles;
 }
 
-module.exports = {authProfile, getProfiles};
+async function getDailyClaim (interaction, profileModel) {
+  let claimed = await profileModel.findOne({ userID: interaction.user.id}, {dailyClaim: 1} );
+  return claimed;
+}
+
+async function setDailyClaim (interaction, profileModel) {
+  await profileModel.findOneAndUpdate({userID: interaction.user.id},{$set: {dailyClaim: true}}); 
+}
+
+module.exports = {authProfile, getProfiles, getDailyClaim, setDailyClaim};

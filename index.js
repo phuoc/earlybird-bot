@@ -23,15 +23,22 @@ client.commands = new Collection();
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+// Set a new item in the Collection
+// With the key as the command name and the value as the exported module
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
-	// Set a new item in the Collection
-	// With the key as the command name and the value as the exported module
 	client.commands.set(command.data.name, command);
 }
 
 client.once('ready', () => {
 	console.log('Worm bot is online!');
+
+	//! 
+	// let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
+	// 	const reset = profileModel.updateMany({}, {$set: {dailyClaim: false}});
+	// });
+ 
+	// schedCacheReset.start();
 });
 
 client.on('interactionCreate', async interaction => {
@@ -67,6 +74,7 @@ client.on('messageCreate', async message => {
       });
   }
 });
+
 
 mongoose.connect(process.env.MONGODB_SRV, {
 	useNewUrlParser: true,

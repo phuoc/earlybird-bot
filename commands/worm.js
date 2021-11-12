@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const profileModel = require("../models/profileSchema");
-const { authProfile } = require("../utils.js");
-const cron = require('cron');
+const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [
   '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
@@ -16,57 +15,52 @@ const quotes = [
 //Faa boten til aa si hvilken nr paa worm: FOKO got the 1st worm!
 //Bao got the 4th worm!
 
-//antall levels > evolve til diff bird breeds -> bruke knapper
-
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("worm")
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
-    // let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
-    //   interaction.channel.send('hi schedule cron jop');
-    // });
-   
-    // schedCacheReset.start();
-
-    // Check time
     const time = new Date();
     const openingHr = 5; 
-    const closingHr = 7;
-    let isOpen = false;
+    const closingHr = 8; //+1 pga 08:59
+    let isOpen = true;
 
     if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
-      console.log(`Worm shop is open. ${openingHr} - ${closingHr}`);
-      isOpen = true;
-    } 
-    else if(time.getDay(0) || time.getDay(6)) {
+      console.log(`\nWorm shop is open. ${openingHr} - ${closingHr}`);
       isOpen = true;
     } else {
-      console.log(`Worm shop is closed. ${openingHr} - ${closingHr}`);
+      console.log(`\nWorm shop is closed. ${openingHr} - ${closingHr}`);
       isOpen = false;
     } 
-    // End check time
+    if(time.getDay() == 0 || time.getDay() == 6) {
+      isOpen = true;
+    }
 
-    // Check or create profiles 
     await authProfile(interaction, profileModel);
 
-    //todo console.log(interaction.userID(profileModel.))
+    const claimed = await getDailyClaim(interaction, profileModel);
 
-    const reward = 1;
+    console.log(`Day =  ${time.getDay()}`);
+    console.log(`isOpen = ${isOpen}`);
+    console.log(`Daily claim = ${claimed.dailyClaim}`);
 
-    if(!isOpen) { 
-      const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: reward}});
+    if(isOpen && claimed.dailyClaim === false) { 
+      const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: 1}});
+      await setDailyClaim(interaction, profileModel);
       await interaction.reply({
         content: `Early birb <@${interaction.user.id}> got a worm!`,
       });
-        //todo uncomment when in prod
-        await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: false});
-    } else {
+        await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
+    } else if (!isOpen) {
       await interaction.reply({
-        content: `The worms are sleepin 😴 Come back between 05:00 and 08:00`,
+        content: `The worms are sleepin 😴 Come back between 0${openingHr}:00 and 0${closingHr+1}:00`,
       });
-    }
+    } else if (claimed.dailyClaim === true) {
+      await interaction.reply({
+        content: `You have already caught a worm`,
+        ephemeral: true,
+      });
+    } 
   },
 };
