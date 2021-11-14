@@ -37,6 +37,7 @@ client.once('ready', () => {
 	// let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
 	// 	const reset = profileModel.updateMany({}, {$set: {dailyClaim: false}});
 	// });
+	// https://stackoverflow.com/questions/60217289/mongoose-find-and-update-all
  
 	// schedCacheReset.start();
 });
