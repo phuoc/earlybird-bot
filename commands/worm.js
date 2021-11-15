@@ -41,10 +41,12 @@ module.exports = {
     await authProfile(interaction, profileModel);
 
     const claimed = await getDailyClaim(interaction, profileModel);
-
-    console.log(`Day =  ${time.getDay()}`);
+    const dCount2 = await globalModel.findOne({ globalId: 404}, {dailyCount: 1});
+		
+    console.log(`Counter = ${dCount2.dailyCount}`);
+    console.log(`Weekday =  ${time.getDay()}`);
     console.log(`isOpen = ${isOpen}`);
-    console.log(`Daily claim = ${claimed.dailyClaim}`);
+    console.log(`hasClaimed = ${claimed.dailyClaim}`);
 
     if(isOpen && claimed.dailyClaim === false) { 
       const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: 1}});
