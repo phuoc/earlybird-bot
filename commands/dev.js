@@ -14,7 +14,7 @@ module.exports = {
 		console.log(`Counter = ${dCount.dailyCount}`);
 
 		await interaction.reply({
-			content: `+1 user and worm count`,
+			content: `+1 user and worm count\n${dCount.dailyCount} worms have been claimed today`,
 		});
 	},
 };
