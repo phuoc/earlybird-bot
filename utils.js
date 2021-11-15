@@ -33,4 +33,9 @@ async function setDailyClaim (interaction, profileModel) {
   await profileModel.findOneAndUpdate({userID: interaction.user.id},{$set: {dailyClaim: true}}); 
 }
 
-module.exports = {authProfile, getProfiles, getDailyClaim, setDailyClaim};
+async function resetDaily (profileModel) {
+  await profileModel.updateMany({dailyClaim: true}, {"$set": {dailyClaim: false}});
+  console.log("Daily reset succeded!");
+}
+
+module.exports = {authProfile, getProfiles, getDailyClaim, setDailyClaim, resetDaily};

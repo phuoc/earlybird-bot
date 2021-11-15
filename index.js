@@ -2,6 +2,8 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const mongoose = require('mongoose');
 const profileModel = require("./models/profileSchema");
+const cron = require('cron');
+const { resetDaily } = require("./utils.js");
 
 if(process.env.NODE_ENV != "production") {
 	require('dotenv').config();
@@ -33,13 +35,11 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Worm bot is online!');
 
-	//! 
-	// let schedCacheReset = new cron.CronJob('00 59 04 * * *', () => {
-	// 	const reset = profileModel.updateMany({}, {$set: {dailyClaim: false}});
-	// });
-	// https://stackoverflow.com/questions/60217289/mongoose-find-and-update-all
- 
-	// schedCacheReset.start();
+	let schedCacheReset = new cron.CronJob('00 56 22 * * *', () => {
+		resetDaily(profileModel);
+	});
+
+	schedCacheReset.start();
 });
 
 client.on('interactionCreate', async interaction => {
