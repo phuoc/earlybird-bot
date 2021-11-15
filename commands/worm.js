@@ -4,17 +4,14 @@ const globalModel = require("../models/globalSchema");
 const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [
-  '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
-  'Good Morning! May your cup filled up with blessings today.',
-  'Good morning, make positive thoughts and enjoy every moment of this day!',
-	'Difficult road often lead to beautiful destinations. Good Morning!'
+  'hi god morgen bro ╰(*°▽°*)╯',
+  'hi god morgen og ha en fin dag bro ^.^'
 ];
 
-//todo const limit - en worm om dagen
-//Flere kan claime en worm
-//const wormNumber
-//Faa boten til aa si hvilken nr paa worm: FOKO got the 1st worm!
-//Bao got the 4th worm!
+// '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
+//   'Good Morning! May your cup filled up with blessings today.',
+//   'Good morning, make positive thoughts and enjoy every moment of this day!',
+// 	'Difficult road often lead to beautiful destinations. Good Morning!',
 
 module.exports = {
   data: new SlashCommandBuilder()
