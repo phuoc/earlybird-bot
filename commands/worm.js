@@ -23,7 +23,7 @@ module.exports = {
   async execute(interaction) {
 
     const time = new Date();
-    const openingHr = 5; 
+    const openingHr = 6; 
     const closingHr = 8; //+1 pga 08:59
     let isOpen = true;
 
