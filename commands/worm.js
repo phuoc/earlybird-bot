@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const profileModel = require("../models/profileSchema");
+const globalModel = require("../models/globalSchema");
 const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [

@@ -2,6 +2,7 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const mongoose = require('mongoose');
 const profileModel = require("./models/profileSchema");
+const globalModel = require("./models/globalSchema");
 const cron = require('cron');
 const { resetDaily } = require("./utils.js");
 
@@ -35,8 +36,8 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Worm bot is online!');
 
-	let schedCacheReset = new cron.CronJob('00 56 22 * * *', () => {
-		resetDaily(profileModel);
+	let schedCacheReset = new cron.CronJob('00 22 23 * * *', () => {
+		resetDaily(profileModel, globalModel);
 	});
 
 	schedCacheReset.start();
