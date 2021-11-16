@@ -36,7 +36,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Worm bot is online!');
 
-	let schedCacheReset = new cron.CronJob('00 28 15 * * *', () => {
+	let schedCacheReset = new cron.CronJob('00 30 15 * * *', () => {
 		resetDaily(profileModel, globalModel);
 	});
 
