@@ -36,11 +36,11 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Worm bot is online!');
 
-	let schedCacheReset = new cron.CronJob('00 30 06 * * *', () => {
-		resetDaily(profileModel, globalModel);
-	});
+	// let schedCacheReset = new cron.CronJob('00 30 06 * * *', () => {
+	// 	resetDaily(profileModel, globalModel);
+	// });
 
-	schedCacheReset.start();
+	// schedCacheReset.start();
 });
 
 client.on('interactionCreate', async interaction => {
