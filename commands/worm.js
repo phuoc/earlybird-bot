@@ -49,7 +49,7 @@ module.exports = {
       const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: 1}});
       await setDailyClaim(interaction, profileModel);
       await interaction.reply({
-        content: `Early birb <@${interaction.user.id}> got worm number ${dCount2.dailyCount}!`,
+        content: `Early birb <@${interaction.user.id}> caught worm number ${dCount2.dailyCount}!`,
       });
         await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
     } else if (!isOpen) {
