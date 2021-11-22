@@ -24,20 +24,16 @@ module.exports = {
     const closingHr = 8; //+1 pga 08:59
     let isOpen = true;
 
-    var today = new Date();
-    var tomorrow = new Date(today);
+    var tomorrow = new Date(time);
     tomorrow.setDate(tomorrow.getDate() + 1);
     tomorrow.setHours(6,0,0,0);
 
-    let diff = tomorrow.getTime() - today.getTime();
-
+    let diff = tomorrow.getTime() - time.getTime();
     let msec = diff;
     let hh = Math.floor(msec / 1000 / 60 / 60);
     msec -= hh * 1000 * 60 * 60;
     let mm = Math.floor(msec / 1000 / 60);
     msec -= mm * 1000 * 60;
-
-    console.log(hh + ":" + mm);
 
     if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
       console.log(`\nWorm shop is open. ${openingHr} - ${closingHr}`);
