@@ -9,9 +9,10 @@ module.exports = {
 	async execute(interaction) {
     await profileModel.updateMany({dailyClaim: true}, {"$set": {dailyClaim: false}});
     await globalModel.findOneAndUpdate({globalId: 404}, {"$set": {dailyCount: 0}});
+		console.log("!!!!! DAILY RESET - COMMAND !!!!!");
 
 		await interaction.reply({
-			content: `Resetting hasClaimed and worm counter`,
+			content: `hasClaimed and worm counter has been reset!`,
 		});
 	},
 };

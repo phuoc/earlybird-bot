@@ -38,6 +38,7 @@ client.once('ready', () => {
 
 	let schedCacheReset = new cron.CronJob('00 30 15 * * *', () => {
 		resetDaily(profileModel, globalModel);
+		console.log("!!!!! DAILY RESET - INDEX UTILS !!!!!");
 	});
 
 	schedCacheReset.start();

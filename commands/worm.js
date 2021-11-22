@@ -24,6 +24,21 @@ module.exports = {
     const closingHr = 8; //+1 pga 08:59
     let isOpen = true;
 
+    var today = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(6,0,0,0);
+
+    let diff = tomorrow.getTime() - today.getTime();
+
+    let msec = diff;
+    let hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    let mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+
+    console.log(hh + ":" + mm);
+
     if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
       console.log(`\nWorm shop is open. ${openingHr} - ${closingHr}`);
       isOpen = true;
@@ -54,11 +69,11 @@ module.exports = {
         await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
     } else if (!isOpen) {
       await interaction.reply({
-        content: `The worms are sleepin 😴 Come back between 0${openingHr}:00 and 0${closingHr+1}:00`,
+        content: `The worms are sleepin 😴 Come back between 0${openingHr}:00 and 0${closingHr+1}:00. Next interval begins in **${hh}h ${mm}m**`,
       });
     } else if (claimed.dailyClaim === true) {
       await interaction.reply({
-        content: `You have already caught a worm`,
+        content: `You can claim once per day. Next interval begins in ${hh}h ${mm}m`,
         ephemeral: true,
       });
     } 
