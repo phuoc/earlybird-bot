@@ -5,13 +5,14 @@ const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [
   'hi god morgen bro ╰(*°▽°*)╯',
-  'hi god morgen og ha en fin dag bro ^.^'
+  'hi god morgen og ha en fin dag bro ^.^',
+  '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
+  'Good Morning! May your cup filled up with blessings today.',
+  'Good morning, make positive thoughts and enjoy every moment of this day!',
+	'Difficult road often lead to beautiful destinations. Good Morning!',
 ];
 
-// '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
-//   'Good Morning! May your cup filled up with blessings today.',
-//   'Good morning, make positive thoughts and enjoy every moment of this day!',
-// 	'Difficult road often lead to beautiful destinations. Good Morning!',
+
 
 module.exports = {
   data: new SlashCommandBuilder()
