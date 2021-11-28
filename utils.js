@@ -33,11 +33,6 @@ async function setDailyClaim (interaction, profileModel) {
   await profileModel.findOneAndUpdate({userID: interaction.user.id},{$set: {dailyClaim: true}}); 
 }
 
-// async function getDailyCounter (globalModel) {
-//   let globalCount = await globalModel.findOne({globalId}, {dailyCount: 1} );
-//   return globalCount;
-// }
-
 async function resetDaily (profileModel, globalModel) {
   await profileModel.updateMany({dailyClaim: true}, {"$set": {dailyClaim: false}});
   await globalModel.findOneAndUpdate({globalId: 404}, {"$set": {dailyCount: 0}});

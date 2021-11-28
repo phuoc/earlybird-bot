@@ -23,11 +23,8 @@ for (const file of eventFiles) {
 }
 
 client.commands = new Collection();
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-// Set a new item in the Collection
-// With the key as the command name and the value as the exported module
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	client.commands.set(command.data.name, command);
@@ -38,7 +35,6 @@ client.once('ready', () => {
 
 	let schedCacheReset = new cron.CronJob('00 00 06 * * *', () => {
 		resetDaily(profileModel, globalModel);
-		console.log("!!!!! DAILY RESET - INDEX UTILS !!!!!");
 	});
 	schedCacheReset.start();
 });
@@ -56,7 +52,6 @@ client.on('interactionCreate', async interaction => {
 		console.error(error);
 		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 	}
-
 });
 
 client.on('messageCreate', async message => {

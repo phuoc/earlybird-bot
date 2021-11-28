@@ -7,7 +7,7 @@ const { DataManager } = require("discord.js");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('dev')
-		.setDescription('Add testdata to db'),
+		.setDescription('Add test data to db'),
 	async execute(interaction) {
 		// let gl = await globalModel.create({globalId: 404, dailyCount: 0});
 

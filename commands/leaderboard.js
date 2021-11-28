@@ -15,11 +15,7 @@ module.exports = {
     for (let i = 0; i < profiles.length; i++) {
       const data = profiles[i];
 
-      // lbString += (i+1) + ". **" + data.username + "** - " + data.worms + "\n";
       lbString += `${i+1}. ${data.username} - **${data.worms}**\n`
-
-      // userNames += `\`${i + 1}\` ${data.username}\n`;
-      // worms += `\`${data.worms}\`\n`;
     }
 
     console.log(lbString.toString());
@@ -30,8 +26,6 @@ module.exports = {
       .setThumbnail("https://cdna.artstation.com/p/assets/images/images/012/471/678/original/austin-lutz-backpack-turnaround.gif?1534960441")
       .addFields(
         {name: "Wormboard", value: lbString}
-        // { name: 'User', value: userNames, inline: true },
-        // { name: 'Worms', value: worms, inline: true }
       );  
     
     interaction.reply({ embeds: [embed] });

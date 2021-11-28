@@ -4,15 +4,13 @@ const globalModel = require("../models/globalSchema");
 const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [
-  'hi god morgen bro ╰(*°▽°*)╯',
-  'hi god morgen og ha en fin dag bro ^.^',
+  'hi god morgen ╰(*°▽°*)╯',
+  'hi god morgen og ha en fin dag ^.^',
   '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
   'Good Morning! May your cup filled up with blessings today.',
   'Good morning, make positive thoughts and enjoy every moment of this day!',
 	'Difficult road often lead to beautiful destinations. Good Morning!',
 ];
-
-
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,7 +20,7 @@ module.exports = {
 
     const time = new Date();
     const openingHr = 6; 
-    const closingHr = 8; //+1 pga 08:59
+    const closingHr = 8;
     let isOpen = true;
 
     var tomorrow = new Date(time);
@@ -50,9 +48,9 @@ module.exports = {
     await authProfile(interaction, profileModel);
 
     const claimed = await getDailyClaim(interaction, profileModel);
-    const dCount2 = await globalModel.findOne({ globalId: 404}, {dailyCount: 1});
+    const dailycount = await globalModel.findOne({ globalId: 404}, {dailyCount: 1});
 		
-    console.log(`Counter = ${dCount2.dailyCount}`);
+    console.log(`Counter = ${dailycount.dailyCount}`);
     console.log(`Weekday =  ${time.getDay()}`);
     console.log(`isOpen = ${isOpen}`);
     console.log(`hasClaimed = ${claimed.dailyClaim}`);
@@ -61,7 +59,7 @@ module.exports = {
       const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: 1}});
       await setDailyClaim(interaction, profileModel);
       await interaction.reply({
-        content: `Early birb <@${interaction.user.id}> caught worm number ${dCount2.dailyCount}!`,
+        content: `Early birb <@${interaction.user.id}> caught worm number ${dailycount.dailyCount}!`,
       });
         await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
     } else if (!isOpen) {

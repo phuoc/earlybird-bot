@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const profileModel = require("../models/profileSchema");
 
-
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("bag")
