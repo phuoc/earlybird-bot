@@ -7,5 +7,3 @@ This is a Discord bot that rewards early birds.
 ## ❗ Features
 
 ## 📝 To-Do
-
-## 📜 Credits
