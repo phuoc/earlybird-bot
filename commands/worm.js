@@ -5,11 +5,11 @@ const { authProfile, getDailyClaim, setDailyClaim } = require("../utils.js");
 
 const quotes = [
   'hi god morgen ╰(*°▽°*)╯',
-  'hello fren, god morgen og ha en fin dag',
-  '"I get up every morning and it’s going to be a great day. You never know when it’s going to be over, so I refuse to have a bad day.” – Paul Henderson"',
-  'Good Morning! May your cup filled up with blessings today.',
-  'Good morning, make positive thoughts and enjoy every moment of this day!',
-  'Difficult road often lead to beautiful destinations. Good Morning!',
+  'hilo, god morgen og ha en fantastisk dag <:pogU:869943512752345169>',
+  'MORNIN 👹 <:pogU:869943512752345169>',
+  'Good Mornin <:pogU:869943512752345169> May your cup filled up with blessings today.',
+  'God morgen <3 Stay hydrated <:pogU:869943512752345169>',
+  'Difficult road often lead to beautiful destinations. Good Morning! (⊙o⊙)',
 ];
 
 module.exports = {
@@ -18,31 +18,41 @@ module.exports = {
     .setDescription("Claims the worm"),
   async execute(interaction) {
 
-    const time = new Date();
-    const openingHr = 6; 
-    const closingHr = 8;
-    let isOpen = true;
+    const today = new Date();
+    const startTime = 6; 
+    const endTime = 8;
+    let isClaimable = true;
 
-    var tomorrow = new Date(time);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrow = new Date(today);
+
+    if(today.getHours() >= 0) {
+      if(today.getHours() <= 5) {
+        tomorrow.setDate(tomorrow.getDate())
+      }
+    } else {
+      tomorrow.setDate(tomorrow.getDate() + 1);
+    }
     tomorrow.setHours(6,0,0,0);
 
-    let diff = tomorrow.getTime() - time.getTime();
+    let diff = tomorrow.getTime() - today.getTime();
+    
     let msec = diff;
     let hh = Math.floor(msec / 1000 / 60 / 60);
     msec -= hh * 1000 * 60 * 60;
     let mm = Math.floor(msec / 1000 / 60);
     msec -= mm * 1000 * 60;
 
-    if(time.getHours() >= openingHr && time.getHours() <= closingHr) {
-      console.log(`\nWorm shop is open. ${openingHr} - ${closingHr}`);
-      isOpen = true;
+    if(today.getHours() >= startTime && today.getHours() <= endTime) {
+      console.log(`\nWorm shop is open. ${startTime} - ${endTime}`);
+      isClaimable = true;
     } else {
-      console.log(`\nWorm shop is closed. ${openingHr} - ${closingHr}`);
-      isOpen = false;
+      console.log(`\nWorm shop is closed. ${startTime} - ${endTime}`);
+      isClaimable = false;
     } 
-    if(time.getDay() == 0 || time.getDay() == 6) {
-      isOpen = true;
+
+    // What does this do tho
+    if(today.getDay() == 0 || today.getDay() == 6) {
+      isClaimable = true;
     }
 
     await authProfile(interaction, profileModel);
@@ -51,24 +61,24 @@ module.exports = {
     const dailycount = await globalModel.findOne({ globalId: 404}, {dailyCount: 1});
 		
     console.log(`Counter = ${dailycount.dailyCount}`);
-    console.log(`Weekday =  ${time.getDay()}`);
-    console.log(`isOpen = ${isOpen}`);
+    console.log(`Weekday =  ${today.getDay()}`);
+    console.log(`isOpen = ${isClaimable}`);
     console.log(`hasClaimed = ${claimed.dailyClaim}`);
 
-    if(isOpen && claimed.dailyClaim === false) { 
+    if(isClaimable && claimed.dailyClaim === false) { 
       const response = await profileModel.findOneAndUpdate({userID: interaction.user.id},{$inc: {worms: 1}});
       await setDailyClaim(interaction, profileModel);
       await interaction.reply({
-        content: `Hoot hoot! Early bird <@${interaction.user.id}> caught worm #${dailycount.dailyCount}!`,
+        content: `Early bird <@${interaction.user.id}> caught a <:wormie:1044392759974432768> #${dailycount.dailyCount}!`,
       });
         await interaction.followUp({content: quotes[Math.floor(Math.random() * quotes.length)], ephemeral: true});
-    } else if (!isOpen) {
+    } else if (!isClaimable) {
       await interaction.reply({
-        content: `The worms are sleepin 😴 Come back between 0${openingHr}:00 and 0${closingHr+1}:00. Next interval begins in **${hh}h ${mm}m**`,
+        content: `The worms are sleepin 😴 Come back between 0${startTime}:00 - 0${endTime+1}:00. BING BONG zzZZ <:pepekevin:869944567007412294> `,
       });
     } else if (claimed.dailyClaim === true) {
       await interaction.reply({
-        content: `You can claim once per day. Next interval begins in ${hh}h ${mm}m`,
+        content: `You can claim once per day (⓿_⓿)`,
         ephemeral: true,
       });
     } 
