@@ -19,7 +19,7 @@ module.exports = {
   async execute(interaction) {
 
     const today = new Date();
-    const startTime = 6; 
+    const startTime = 5; 
     const endTime = 8;
     let isClaimable = true;
 
